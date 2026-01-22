@@ -1,0 +1,22 @@
+# Security Notes
+
+## Rate limiting
+
+API routes are protected by a basic, in-memory rate limit in `middleware.ts`.
+
+Default values:
+- `RATE_LIMIT_WINDOW_MS=60000`
+- `RATE_LIMIT_MAX=120`
+
+These defaults can be overridden via environment variables.
+
+## Rich text rendering (XSS safety)
+
+When rendering Sanity Portable Text content, **never** use `dangerouslySetInnerHTML`.
+Use a safe renderer (e.g., `@portabletext/react`) and escape any raw strings. For
+simple previews, use the helper in `lib/security/sanitize.ts`:
+
+- `escapeHtml(text)` for raw strings
+- `portableTextToPlainText(blocks)` for a safe text-only preview
+
+These utilities strip markup and escape HTML characters to mitigate XSS.
