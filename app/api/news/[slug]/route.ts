@@ -11,7 +11,7 @@ interface PostParams {
 
 export async function GET(_: Request, { params }: PostParams) {
   const query = `*[
-    _type == "post" && status == "published" && slug.current == $slug
+    _type == "post" && (!defined(status) || status == "published") && slug.current == $slug
   ][0]{
     "id": _id,
     title,

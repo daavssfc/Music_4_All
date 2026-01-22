@@ -11,7 +11,7 @@ interface EventParams {
 
 export async function GET(_: Request, { params }: EventParams) {
   const query = `*[
-    _type == "event" && status == "published" && slug.current == $slug
+    _type == "event" && (!defined(status) || status == "published") && slug.current == $slug
   ][0]{
     "id": _id,
     title,

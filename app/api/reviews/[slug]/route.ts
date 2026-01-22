@@ -11,7 +11,7 @@ interface ReviewParams {
 
 export async function GET(_: Request, { params }: ReviewParams) {
   const query = `*[
-    _type == "review" && status == "published" && slug.current == $slug
+    _type == "review" && (!defined(status) || status == "published") && slug.current == $slug
   ][0]{
     "id": _id,
     title,

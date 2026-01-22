@@ -32,7 +32,7 @@ export async function GET(request: Request) {
 
   const query = `{
     "items": *[
-      _type == "post" && status == "published"
+      _type == "post" && (!defined(status) || status == "published")
       && (!defined($tag) || count(tags[]-> [slug.current == $tag]) > 0)
       && (!defined($query) || title match $query || excerpt match $query || pt::text(body) match $query)
     ]
@@ -53,7 +53,7 @@ export async function GET(request: Request) {
       "tags": coalesce(tags[]->{name, "slug": slug.current, type}, null)
     },
     "total": count(*[
-      _type == "post" && status == "published"
+      _type == "post" && (!defined(status) || status == "published")
       && (!defined($tag) || count(tags[]-> [slug.current == $tag]) > 0)
       && (!defined($query) || title match $query || excerpt match $query || pt::text(body) match $query)
     ])

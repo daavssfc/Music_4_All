@@ -49,7 +49,7 @@ export async function GET(request: Request) {
 
   const query = `{
     "items": *[
-      _type == "event" && status == "published"
+      _type == "event" && (!defined(status) || status == "published")
       && ${whenFilter}
       && (!defined($artist) || count(artists[]-> [slug.current == $artist]) > 0)
       && (!defined($city) || city match $city)
@@ -70,7 +70,7 @@ export async function GET(request: Request) {
       "artists": coalesce(artists[]->{name, "slug": slug.current}, null)
     },
     "total": count(*[
-      _type == "event" && status == "published"
+      _type == "event" && (!defined(status) || status == "published")
       && ${whenFilter}
       && (!defined($artist) || count(artists[]-> [slug.current == $artist]) > 0)
       && (!defined($city) || city match $city)

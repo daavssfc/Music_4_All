@@ -53,7 +53,7 @@ export async function GET(request: Request) {
 
   const query = `{
     "items": *[
-      _type == "review" && status == "published"
+      _type == "review" && (!defined(status) || status == "published")
       && (!defined($tag) || count(tags[]-> [slug.current == $tag]) > 0)
       && (!defined($genre) || count(tags[]-> [slug.current == $genre && type == "genre"]) > 0)
       && (!defined($artist) || count(album->artists[]-> [slug.current == $artist]) > 0)
@@ -88,7 +88,7 @@ export async function GET(request: Request) {
       "tags": coalesce(tags[]->{name, "slug": slug.current, type}, null)
     },
     "total": count(*[
-      _type == "review" && status == "published"
+      _type == "review" && (!defined(status) || status == "published")
       && (!defined($tag) || count(tags[]-> [slug.current == $tag]) > 0)
       && (!defined($genre) || count(tags[]-> [slug.current == $genre && type == "genre"]) > 0)
       && (!defined($artist) || count(album->artists[]-> [slug.current == $artist]) > 0)
