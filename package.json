@@ -13,24 +13,27 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --exclude tests/e2e/**",
+    "test:e2e": "playwright test",
     "studio:dev": "pnpm --filter studio dev",
     "studio:build": "pnpm --filter studio build"
   },
   "dependencies": {
+    "@sanity/client": "6.24.0",
     "next": "14.2.7",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "sanity": "3.62.2",
     "zod": "3.23.8"
   },
   "devDependencies": {
     "@types/node": "20.14.12",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
+    "@playwright/test": "1.47.2",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.7",
     "typescript": "5.5.4",
-    "vitest": "2.0.5",
-    "vite-tsconfig-paths": "4.3.2"
+    "vitest": "2.0.5"
   }
 }
