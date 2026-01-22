@@ -115,114 +115,20 @@ export default async function HomePage() {
   const tours = eventsResult.data.items.slice(0, 3);
   const artists = artistsResult.data.items.slice(0, 3);
 
-const buildBaseUrl = () => {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto") ?? "http";
-  if (!host) {
-    return process.env.NEXT_PUBLIC_BASE_URL ?? "";
-  }
-  return `${protocol}://${host}`;
-};
-
-type PageInfo = {
-  total: number;
-};
-
-type PaginatedResponse<T> = {
-  items: T[];
-  pageInfo: PageInfo;
-};
-
-type ReviewItem = {
-  id: string;
-  title: string;
-  slug: string;
-  rating: number | null;
-  excerpt: string | null;
-  publishedAt: string | null;
-  album: {
-    title: string;
-    slug: string;
-    coverImageUrl: string | null;
-    artists: { name: string; slug: string }[] | null;
-  } | null;
-  author: {
-    name: string;
-    handle: string;
-    slug: string;
-  } | null;
-};
-
-type PostItem = {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  publishedAt: string | null;
-};
-
-type EventItem = {
-  id: string;
-  title: string;
-  slug: string;
-  venue: string | null;
-  city: string | null;
-  country: string | null;
-  startsAt: string | null;
-};
-
-type ArtistItem = {
-  id: string;
-  name: string;
-  slug: string;
-};
-
-type FetchResult<T> = {
-  data: PaginatedResponse<T>;
-  error: string | null;
-};
-
-const formatDate = (value: string | null) => {
-  if (!value) return "";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
-};
-
-const emptyResponse = <T,>(): PaginatedResponse<T> => ({
-  items: [],
-  pageInfo: { total: 0 }
-});
-
-const getJsonSafe = async <T,>(path: string): Promise<FetchResult<T>> => {
-  const baseUrl = buildBaseUrl();
-  const url = baseUrl ? `${baseUrl}${path}` : path;
-  try {
-    const response = await fetch(url, { next: { revalidate: 30 } });
-    if (!response.ok) {
-      const text = await response.text();
-      return { data: emptyResponse<T>(), error: text || `Request failed: ${response.status}` };
-    }
-    return { data: (await response.json()) as PaginatedResponse<T>, error: null };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return { data: emptyResponse<T>(), error: message };
-  }
-};
-
-export default async function HomePage() {
-  const [reviewsResult, newsResult, eventsResult, artistsResult] = await Promise.all([
-    getJsonSafe<ReviewItem>("/api/reviews"),
-    getJsonSafe<PostItem>("/api/news"),
-    getJsonSafe<EventItem>("/api/events?when=upcoming"),
-    getJsonSafe<ArtistItem>("/api/artists")
-  ]);
-
   return (
-    <main className="page" style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <header style={{ marginBottom: "2rem" }}>
-        <h1>Music 4 All</h1>
-        <p>Live content preview from Sanity + API routes.</p>
+    <main className="page">
+      <header className="navbar">
+        <div className="container nav-inner">
+          <div className="logo">Music4All</div>
+          <nav className="nav-links" aria-label="Primary">
+            <a href="#reviews">Reviews</a>
+            <a href="#news">News</a>
+            <a href="#tours">Tours</a>
+            <a href="#artists">Artists</a>
+            <a href="#about">About</a>
+          </nav>
+          <button className="btn btn-primary">Explore Music</button>
+        </div>
       </header>
 
       <section className="hero">
