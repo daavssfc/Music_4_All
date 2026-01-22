@@ -1,7 +1,9 @@
 import { defineField, defineType } from "sanity";
+import type { ValidationContext } from "sanity";
 
-const requiredWhenPublished = (value: unknown, context: { document?: { status?: string } }) => {
-  if (context.document?.status === "published" && (value === undefined || value === null || value === "")) {
+const requiredWhenPublished = (value: unknown, context: ValidationContext) => {
+  const document = context.document as { status?: string } | undefined;
+  if (document?.status === "published" && (value === undefined || value === null || value === "")) {
     return "Required to publish.";
   }
   return true;

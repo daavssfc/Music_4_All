@@ -1,11 +1,11 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineType } from "sanity";
 
 export default defineType({
   name: "blockContent",
   title: "Rich Text",
   type: "array",
   of: [
-    defineField({
+    defineArrayMember({
       type: "block",
       styles: [
         { title: "Normal", value: "normal" },
@@ -28,19 +28,20 @@ export default defineType({
             type: "object",
             title: "Link",
             fields: [
-              defineField({
+              {
                 name: "href",
                 type: "url",
                 title: "URL",
                 validation: (Rule) => Rule.uri({ scheme: ["http", "https", "mailto"] })
-              })
+              }
             ]
           }
         ]
       }
     }),
-    defineField({
+    defineArrayMember({
       type: "image",
+      name: "image",
       options: { hotspot: true }
     })
   ]
