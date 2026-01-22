@@ -37,7 +37,7 @@ const fallbackReviews = [
     title: "Velvet Static",
     artist: "Nova & The Lines",
     rating: "9.0",
-    image:
+image:
       "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
     slug: "#"
   },
@@ -203,6 +203,7 @@ export default async function HomePage() {
         }))
       : fallbackArtists;
 
+export default function HomePage() {
   return (
     <main className="page">
       <header className="navbar">
