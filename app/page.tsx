@@ -116,19 +116,10 @@ export default async function HomePage() {
   const artists = artistsResult.data.items.slice(0, 3);
 
   return (
-    <main className="page">
-      <header className="navbar">
-        <div className="container nav-inner">
-          <div className="logo">Music4All</div>
-          <nav className="nav-links">
-            <a href="#reviews">Reviews</a>
-            <a href="#news">News</a>
-            <a href="#tours">Tours</a>
-            <a href="#artists">Artists</a>
-            <a href="#about">About</a>
-          </nav>
-          <button className="btn btn-primary">Explore Music</button>
-        </div>
+    <main className="page" style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <header style={{ marginBottom: "2rem" }}>
+        <h1>Music 4 All</h1>
+        <p>Live content preview from Sanity + API routes.</p>
       </header>
 
       <section className="hero">
@@ -176,7 +167,7 @@ export default async function HomePage() {
               <p className="muted">{item.description}</p>
             </article>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section id="reviews" className="section">
