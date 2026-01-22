@@ -32,6 +32,11 @@ The endpoint will revalidate each path in the `paths` array.
    - **Environment**: Production + Preview
 5. Click **Save**.
 
+Also add these Studio variables (Production + Preview):
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET` (use `production`)
+- `NEXT_PUBLIC_SANITY_API_VERSION` (use `2024-01-01`)
+
 Screenshot callout: look for “Environment Variables” in the left sidebar.
 
 ### 2) Create a Sanity webhook
