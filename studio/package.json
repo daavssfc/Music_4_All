@@ -1,0 +1,17 @@
+{
+  "name": "studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "sanity": "3.62.2"
+  },
+  "devDependencies": {
+    "typescript": "5.5.4"
+  }
+}
