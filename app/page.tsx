@@ -203,6 +203,7 @@ export default async function HomePage() {
         }))
       : fallbackArtists;
 
+export default function HomePage() {
   return (
     <main className="page">
       <header className="navbar">
