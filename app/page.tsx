@@ -175,23 +175,8 @@ export default async function HomePage() {
               <h3>{item.title}</h3>
               <p className="muted">{item.description}</p>
             </article>
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>Latest Reviews ({reviewsResult.data.pageInfo.total})</h2>
-        {reviewsResult.error ? <p style={{ color: "#b91c1c" }}>{reviewsResult.error}</p> : null}
-        <ul>
-          {reviewsResult.data.items.map((review) => (
-            <li key={review.id} style={{ marginBottom: "1rem" }}>
-              <strong>{review.title}</strong>
-              {review.album ? ` — ${review.album.title}` : ""}
-              {review.rating !== null ? ` (${review.rating})` : ""}
-              <div style={{ color: "#666" }}>
-                {review.author ? `By ${review.author.name}` : ""}
-                {review.publishedAt ? ` · ${formatDate(review.publishedAt)}` : ""}
-              </div>
-              {review.excerpt ? <p>{review.excerpt}</p> : null}
-            </li>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section id="reviews" className="section">
@@ -312,43 +297,6 @@ export default async function HomePage() {
           </div>
           <button className="btn btn-primary btn-lg">Get in touch</button>
         </div>
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>News ({newsResult.data.pageInfo.total})</h2>
-        {newsResult.error ? <p style={{ color: "#b91c1c" }}>{newsResult.error}</p> : null}
-        <ul>
-          {newsResult.data.items.map((post) => (
-            <li key={post.id} style={{ marginBottom: "1rem" }}>
-              <strong>{post.title}</strong>
-              {post.publishedAt ? ` · ${formatDate(post.publishedAt)}` : ""}
-              {post.excerpt ? <p>{post.excerpt}</p> : null}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>Upcoming Events ({eventsResult.data.pageInfo.total})</h2>
-        {eventsResult.error ? <p style={{ color: "#b91c1c" }}>{eventsResult.error}</p> : null}
-        <ul>
-          {eventsResult.data.items.map((event) => (
-            <li key={event.id} style={{ marginBottom: "1rem" }}>
-              <strong>{event.title}</strong>
-              {event.city ? ` · ${event.city}` : ""}
-              {event.startsAt ? ` · ${formatDate(event.startsAt)}` : ""}
-              <div style={{ color: "#666" }}>{event.venue}</div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Artists ({artistsResult.data.pageInfo.total})</h2>
-        {artistsResult.error ? <p style={{ color: "#b91c1c" }}>{artistsResult.error}</p> : null}
-        <ul>
-          {artistsResult.data.items.map((artist) => (
-            <li key={artist.id}>{artist.name}</li>
-          ))}
-        </ul>
       </section>
     </main>
   );
