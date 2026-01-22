@@ -15,7 +15,7 @@ describe("rate limit middleware", () => {
 
     const request = createRequest("/api/health", { "x-forwarded-for": "1.2.3.4" });
     const response = middleware(request);
-    expect(response.status).toBeUndefined();
+    expect(response.status).toBe(200);
   });
 
   it("blocks requests over the limit", async () => {

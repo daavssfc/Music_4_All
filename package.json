@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --exclude tests/e2e/**",
     "test:e2e": "playwright test",
     "studio:dev": "pnpm --filter studio dev",
     "studio:build": "pnpm --filter studio build"
