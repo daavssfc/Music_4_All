@@ -13,7 +13,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "studio:dev": "pnpm --filter studio dev",
+    "studio:build": "pnpm --filter studio build"
   },
   "dependencies": {
     "next": "14.2.7",
