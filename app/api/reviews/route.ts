@@ -19,39 +19,48 @@ const reviewsQuerySchema = z.object({
 });
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const pagination = getPagination(searchParams);
-  const filters = reviewsQuerySchema.parse(Object.fromEntries(searchParams.entries()));
+  try {
+    const { searchParams } = new URL(request.url);
+    const pagination = getPagination(searchParams);
+    const filters = reviewsQuerySchema.parse(Object.fromEntries(searchParams.entries()));
 
-  const params: Record<string, unknown> = {
-    offset: pagination.offset,
-    limit: pagination.limit
-  };
+    const params: Record<string, unknown> = {
+      offset: pagination.offset,
+      limit: pagination.limit,
+      tag: null,
+      genre: null,
+      artist: null,
+      ratingMin: null,
+      ratingMax: null,
+      query: null,
+      yearStart: null,
+      yearEnd: null
+    };
 
-  if (filters.tag) {
-    params.tag = filters.tag;
-  }
-  if (filters.genre) {
-    params.genre = filters.genre;
-  }
-  if (filters.artist) {
-    params.artist = filters.artist;
-  }
-  if (filters.ratingMin !== undefined) {
-    params.ratingMin = filters.ratingMin;
-  }
-  if (filters.ratingMax !== undefined) {
-    params.ratingMax = filters.ratingMax;
-  }
-  if (filters.q) {
-    params.query = `${filters.q}*`;
-  }
-  if (filters.year) {
-    params.yearStart = `${filters.year}-01-01T00:00:00.000Z`;
-    params.yearEnd = `${filters.year + 1}-01-01T00:00:00.000Z`;
-  }
+    if (filters.tag) {
+      params.tag = filters.tag;
+    }
+    if (filters.genre) {
+      params.genre = filters.genre;
+    }
+    if (filters.artist) {
+      params.artist = filters.artist;
+    }
+    if (filters.ratingMin !== undefined) {
+      params.ratingMin = filters.ratingMin;
+    }
+    if (filters.ratingMax !== undefined) {
+      params.ratingMax = filters.ratingMax;
+    }
+    if (filters.q) {
+      params.query = `${filters.q}*`;
+    }
+    if (filters.year) {
+      params.yearStart = `${filters.year}-01-01T00:00:00.000Z`;
+      params.yearEnd = `${filters.year + 1}-01-01T00:00:00.000Z`;
+    }
 
-  const query = `{
+    const query = `{
     "items": *[
       _type == "review" && (!defined(status) || status == "published")
       && (!defined($tag) || count(tags[]-> [slug.current == $tag]) > 0)
@@ -99,13 +108,23 @@ export async function GET(request: Request) {
     ])
   }`;
 
-  const data = await getSanityClient().fetch<{ items: unknown[]; total: number }>(query, params);
-  const response = {
-    items: data.items ?? [],
-    pageInfo: buildPageInfo(pagination.limit, pagination.offset, data.total ?? 0)
-  };
+    const data = await getSanityClient().fetch<{ items: unknown[]; total: number }>(query, params);
+    const response = {
+      items: data.items ?? [],
+      pageInfo: buildPageInfo(pagination.limit, pagination.offset, data.total ?? 0)
+    };
 
-  const parsed = paginatedResponseSchema(reviewListItemSchema).parse(response);
+    const parsed = paginatedResponseSchema(reviewListItemSchema).parse(response);
 
-  return NextResponse.json(parsed);
+    return NextResponse.json(parsed);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json(
+      {
+        error: "Failed to load reviews.",
+        message
+      },
+      { status: 500 }
+    );
+  }
 }
