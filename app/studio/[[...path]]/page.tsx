@@ -24,6 +24,7 @@ export default function StudioPage() {
         title: "Music 4 All Studio",
         projectId,
         dataset,
+        basePath: "/studio",
         plugins: [deskTool()],
         schema: { types: schemaTypes }
       }}
