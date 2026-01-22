@@ -130,3 +130,25 @@ export const eventDetailSchema = eventListItemSchema.extend({
   description: z.array(z.unknown()).nullable(),
   seo: seoSchema.nullable()
 });
+
+export const searchResultSchema = z.object({
+  id: z.string(),
+  type: z.enum(["review", "post", "event", "artist"]),
+  title: z.string(),
+  slug: slugSchema,
+  route: z.string(),
+  excerpt: z.string().nullable(),
+  publishedAt: z.string().nullable(),
+  startsAt: z.string().nullable(),
+  imageUrl: imageUrlSchema
+});
+
+export const tagAggregationSchema = tagListItemSchema.extend({
+  reviewCount: z.number(),
+  postCount: z.number()
+});
+
+export const artistAggregationSchema = artistListItemSchema.extend({
+  reviewCount: z.number(),
+  eventCount: z.number()
+});

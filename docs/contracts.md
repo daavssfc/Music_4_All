@@ -104,6 +104,33 @@ Query params:
 
 `GET /api/tags/[slug]`
 
+## Search
+
+`GET /api/search`
+
+Query params:
+
+- `q`: full-text search query (required)
+- `type`: `review`, `post`, `event`, `artist`, or `all` (default `all`)
+
+## Aggregations
+
+### Tags
+
+`GET /api/aggregations/tags`
+
+Query params:
+
+- `type`: `genre` or `topic`
+
+### Artists
+
+`GET /api/aggregations/artists`
+
+Query params:
+
+- `q`: full-text search (name, bio)
+
 ## Canonical Routes (external UI)
 
 The external UI should map to these stable URL patterns:
