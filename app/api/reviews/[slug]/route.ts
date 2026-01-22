@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { reviewDetailSchema } from "@/lib/contracts/models";
-import { sanityClient } from "@/lib/sanity/client";
+import { getSanityClient } from "@/lib/sanity/client";
 
 export const runtime = "nodejs";
 
@@ -43,7 +43,7 @@ export async function GET(_: Request, { params }: ReviewParams) {
     }
   }`;
 
-  const data = await sanityClient.fetch<unknown>(query, { slug: params.slug });
+  const data = await getSanityClient().fetch<unknown>(query, { slug: params.slug });
 
   if (!data) {
     return NextResponse.json({ error: "Review not found" }, { status: 404 });

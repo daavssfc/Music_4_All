@@ -4,7 +4,7 @@ import { z } from "zod";
 import { buildPageInfo, getPagination } from "@/lib/api/pagination";
 import { paginatedResponseSchema } from "@/lib/contracts/common";
 import { postListItemSchema } from "@/lib/contracts/models";
-import { sanityClient } from "@/lib/sanity/client";
+import { getSanityClient } from "@/lib/sanity/client";
 
 export const runtime = "nodejs";
 
@@ -59,7 +59,7 @@ export async function GET(request: Request) {
     ])
   }`;
 
-  const data = await sanityClient.fetch<{ items: unknown[]; total: number }>(query, params);
+  const data = await getSanityClient().fetch<{ items: unknown[]; total: number }>(query, params);
   const response = {
     items: data.items ?? [],
     pageInfo: buildPageInfo(pagination.limit, pagination.offset, data.total ?? 0)
