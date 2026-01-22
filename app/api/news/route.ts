@@ -21,7 +21,9 @@ export async function GET(request: Request) {
 
     const params: Record<string, unknown> = {
       offset: pagination.offset,
-      limit: pagination.limit
+      limit: pagination.limit,
+      tag: null,
+      query: null
     };
 
     if (filters.tag) {

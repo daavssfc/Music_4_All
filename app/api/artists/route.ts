@@ -20,7 +20,8 @@ export async function GET(request: Request) {
 
     const params: Record<string, unknown> = {
       offset: pagination.offset,
-      limit: pagination.limit
+      limit: pagination.limit,
+      query: null
     };
 
     if (filters.q) {

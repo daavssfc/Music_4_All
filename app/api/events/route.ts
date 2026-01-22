@@ -25,7 +25,11 @@ export async function GET(request: Request) {
     const params: Record<string, unknown> = {
       offset: pagination.offset,
       limit: pagination.limit,
-      now: new Date().toISOString()
+      now: new Date().toISOString(),
+      artist: null,
+      city: null,
+      country: null,
+      query: null
     };
 
     if (filters.artist) {

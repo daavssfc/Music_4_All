@@ -26,7 +26,15 @@ export async function GET(request: Request) {
 
     const params: Record<string, unknown> = {
       offset: pagination.offset,
-      limit: pagination.limit
+      limit: pagination.limit,
+      tag: null,
+      genre: null,
+      artist: null,
+      ratingMin: null,
+      ratingMax: null,
+      query: null,
+      yearStart: null,
+      yearEnd: null
     };
 
     if (filters.tag) {
