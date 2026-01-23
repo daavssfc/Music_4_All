@@ -1,0 +1,54 @@
+:root {
+  color-scheme: light;
+  --studio-bg: #ffffff;
+  --studio-fg: #0f172a;
+  --studio-surface: #ffffff;
+  --studio-border: #e2e8f0;
+}
+
+html,
+body,
+#root,
+#sanity,
+[data-ui="Root"] {
+  background-color: var(--studio-bg) !important;
+  background: var(--studio-bg) !important;
+  color: var(--studio-fg);
+}
+
+html {
+  background: var(--studio-bg) !important;
+}
+
+body {
+  background: var(--studio-bg) !important;
+  min-height: 100vh;
+}
+
+#__next {
+  background: var(--studio-bg) !important;
+}
+
+main,
+[data-ui="Layout"] {
+  background-color: var(--studio-bg) !important;
+}
+
+[data-ui="Pane"],
+[data-ui="Card"],
+[data-ui="Dialog"],
+[data-ui="Popover"],
+[data-ui="Menu"] {
+  background-color: var(--studio-surface) !important;
+  color: var(--studio-fg);
+  border-color: var(--studio-border) !important;
+}
+
+[data-ui="Navbar"] {
+  background-color: var(--studio-surface) !important;
+  border-bottom: 1px solid var(--studio-border);
+}
+
+[data-ui="Button"] {
+  border-color: var(--studio-border);
+}

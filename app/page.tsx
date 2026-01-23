@@ -1,85 +1,7 @@
-import { headers } from "next/headers";
+import Image from "next/image";
 
-const buildBaseUrl = () => {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto") ?? "http";
-  if (!host) {
-    return process.env.NEXT_PUBLIC_BASE_URL ?? "";
-  }
-  return `${protocol}://${host}`;
-};
-
-type PageInfo = {
-  total: number;
-};
-
-type PaginatedResponse<T> = {
-  items: T[];
-  pageInfo: PageInfo;
-};
-
-type ReviewItem = {
-  id: string;
-  title: string;
-  rating: number | null;
-  album: {
-    title: string;
-    coverImageUrl: string | null;
-    artists: { name: string; slug: string }[] | null;
-  } | null;
-};
-
-type PostItem = {
-  id: string;
-  title: string;
-  excerpt: string | null;
-  publishedAt: string | null;
-};
-
-type EventItem = {
-  id: string;
-  title: string;
-  city: string | null;
-  startsAt: string | null;
-};
-
-type ArtistItem = {
-  id: string;
-  name: string;
-};
-
-type FetchResult<T> = {
-  data: PaginatedResponse<T>;
-  error: string | null;
-};
-
-const formatDate = (value: string | null) => {
-  if (!value) return "";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
-};
-
-const emptyResponse = <T,>(): PaginatedResponse<T> => ({
-  items: [],
-  pageInfo: { total: 0 }
-});
-
-const getJsonSafe = async <T,>(path: string): Promise<FetchResult<T>> => {
-  const baseUrl = buildBaseUrl();
-  const url = baseUrl ? `${baseUrl}${path}` : path;
-  try {
-    const response = await fetch(url, { next: { revalidate: 30 } });
-    if (!response.ok) {
-      const text = await response.text();
-      return { data: emptyResponse<T>(), error: text || `Request failed: ${response.status}` };
-    }
-    return { data: (await response.json()) as PaginatedResponse<T>, error: null };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return { data: emptyResponse<T>(), error: message };
-  }
-};
+import { SiteShell } from "@/app/components/SiteShell";
+import { type ArtistItem, type EventItem, type PostItem, type ReviewItem, formatDate, getJsonSafe } from "@/lib/api/content";
 
 const highlights = [
   {
@@ -116,26 +38,14 @@ export default async function HomePage() {
   const artists = artistsResult.data.items.slice(0, 3);
 
   return (
-    <main className="page">
-      <header className="navbar">
-        <div className="container nav-inner">
-          <div className="logo">Music4All</div>
-          <nav className="nav-links" aria-label="Primary">
-            <a href="#reviews">Reviews</a>
-            <a href="#news">News</a>
-            <a href="#tours">Tours</a>
-            <a href="#artists">Artists</a>
-            <a href="#about">About</a>
-          </nav>
-          <button className="btn btn-primary">Explore Music</button>
-        </div>
-      </header>
+    <SiteShell>
 
       <section className="hero">
         <div className="container hero-grid">
           <div>
             <span className="pill">Music Platform</span>
-            <h1>Everything Music. One Place.</h1>
+            <h1>Music 4 All</h1>
+            <p className="subhead">Everything music. One place.</p>
             <p className="muted">
               Music4All delivers premium album reviews, breaking music news, and tour
               intelligence curated for true fans.
@@ -161,7 +71,7 @@ export default async function HomePage() {
           </div>
           <div className="hero-visual">
             <div className="hero-card">
-              <img src={fallbackImage} alt="Futuristic music collage" />
+              <Image src={fallbackImage} alt="Futuristic music collage" width={720} height={720} />
             </div>
           </div>
         </div>
@@ -175,23 +85,8 @@ export default async function HomePage() {
               <h3>{item.title}</h3>
               <p className="muted">{item.description}</p>
             </article>
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>Latest Reviews ({reviewsResult.data.pageInfo.total})</h2>
-        {reviewsResult.error ? <p style={{ color: "#b91c1c" }}>{reviewsResult.error}</p> : null}
-        <ul>
-          {reviewsResult.data.items.map((review) => (
-            <li key={review.id} style={{ marginBottom: "1rem" }}>
-              <strong>{review.title}</strong>
-              {review.album ? ` — ${review.album.title}` : ""}
-              {review.rating !== null ? ` (${review.rating})` : ""}
-              <div style={{ color: "#666" }}>
-                {review.author ? `By ${review.author.name}` : ""}
-                {review.publishedAt ? ` · ${formatDate(review.publishedAt)}` : ""}
-              </div>
-              {review.excerpt ? <p>{review.excerpt}</p> : null}
-            </li>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section id="reviews" className="section">
@@ -210,7 +105,12 @@ export default async function HomePage() {
             {reviews.map((review) => (
               <article className="card review-card" key={review.id}>
                 <div className="media">
-                  <img src={review.album?.coverImageUrl ?? fallbackImage} alt={`${review.title} cover`} />
+                  <Image
+                    src={review.album?.coverImageUrl ?? fallbackImage}
+                    alt={`${review.title} cover`}
+                    width={640}
+                    height={640}
+                  />
                   {review.rating !== null ? <span className="badge">{review.rating}</span> : null}
                 </div>
                 <h3>{review.title}</h3>
@@ -263,7 +163,7 @@ export default async function HomePage() {
           <div className="grid-3">
             {tours.map((tour) => (
               <article className="card tour-card" key={tour.id}>
-                <img src={fallbackImage} alt={tour.title} />
+                <Image src={fallbackImage} alt={tour.title} width={640} height={480} />
                 <div className="tour-info">
                   <h3>{tour.title}</h3>
                   <p className="muted">{tour.city ?? "TBA"}</p>
@@ -290,7 +190,7 @@ export default async function HomePage() {
           <div className="grid-3">
             {artists.map((artist) => (
               <article className="card artist-card" key={artist.id}>
-                <img src={fallbackImage} alt={artist.name} />
+                <Image src={fallbackImage} alt={artist.name} width={640} height={480} />
                 <h3>{artist.name}</h3>
                 <p className="muted">Artist profile</p>
               </article>
@@ -312,44 +212,7 @@ export default async function HomePage() {
           </div>
           <button className="btn btn-primary btn-lg">Get in touch</button>
         </div>
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>News ({newsResult.data.pageInfo.total})</h2>
-        {newsResult.error ? <p style={{ color: "#b91c1c" }}>{newsResult.error}</p> : null}
-        <ul>
-          {newsResult.data.items.map((post) => (
-            <li key={post.id} style={{ marginBottom: "1rem" }}>
-              <strong>{post.title}</strong>
-              {post.publishedAt ? ` · ${formatDate(post.publishedAt)}` : ""}
-              {post.excerpt ? <p>{post.excerpt}</p> : null}
-            </li>
-          ))}
-        </ul>
       </section>
-
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>Upcoming Events ({eventsResult.data.pageInfo.total})</h2>
-        {eventsResult.error ? <p style={{ color: "#b91c1c" }}>{eventsResult.error}</p> : null}
-        <ul>
-          {eventsResult.data.items.map((event) => (
-            <li key={event.id} style={{ marginBottom: "1rem" }}>
-              <strong>{event.title}</strong>
-              {event.city ? ` · ${event.city}` : ""}
-              {event.startsAt ? ` · ${formatDate(event.startsAt)}` : ""}
-              <div style={{ color: "#666" }}>{event.venue}</div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Artists ({artistsResult.data.pageInfo.total})</h2>
-        {artistsResult.error ? <p style={{ color: "#b91c1c" }}>{artistsResult.error}</p> : null}
-        <ul>
-          {artistsResult.data.items.map((artist) => (
-            <li key={artist.id}>{artist.name}</li>
-          ))}
-        </ul>
-      </section>
-    </main>
+    </SiteShell>
   );
 }

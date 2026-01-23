@@ -4,6 +4,7 @@ import { Studio } from "sanity";
 import { deskTool } from "sanity/desk";
 
 import { schemaTypes } from "@/studio/schemaTypes";
+import { studioTheme } from "@/studio/studioTheme";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -26,7 +27,8 @@ export default function StudioPage() {
         dataset,
         basePath: "/studio",
         plugins: [deskTool()],
-        schema: { types: schemaTypes }
+        schema: { types: schemaTypes },
+        theme: studioTheme
       }}
     />
   );
