@@ -1,9 +1,9 @@
 :root {
-  color-scheme: dark;
-  --studio-bg: #101217;
-  --studio-fg: #f7f3ea;
-  --studio-surface: #171a21;
-  --studio-border: #2b313c;
+  color-scheme: light;
+  --studio-bg: #ffffff;
+  --studio-fg: #0f172a;
+  --studio-surface: #ffffff;
+  --studio-border: #e2e8f0;
 }
 
 html,
@@ -45,7 +45,7 @@ main,
 }
 
 [data-ui="Navbar"] {
-  background-color: #121212 !important;
+  background-color: var(--studio-surface) !important;
   border-bottom: 1px solid var(--studio-border);
 }
 
