@@ -12,11 +12,21 @@ body,
 #sanity,
 [data-ui="Root"] {
   background-color: var(--studio-bg) !important;
+  background: var(--studio-bg) !important;
   color: var(--studio-fg);
 }
 
+html {
+  background: var(--studio-bg) !important;
+}
+
 body {
+  background: var(--studio-bg) !important;
   min-height: 100vh;
+}
+
+#__next {
+  background: var(--studio-bg) !important;
 }
 
 main,

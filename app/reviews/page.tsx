@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { SiteShell } from "@/app/components/SiteShell";
 import { type ReviewItem, formatDate, getJsonSafe } from "@/lib/api/content";
 
@@ -28,7 +30,12 @@ export default async function ReviewsPage() {
             {reviews.map((review) => (
               <article className="card review-card" key={review.id}>
                 <div className="media">
-                  <img src={review.album?.coverImageUrl ?? fallbackImage} alt={`${review.title} cover`} />
+                  <Image
+                    src={review.album?.coverImageUrl ?? fallbackImage}
+                    alt={`${review.title} cover`}
+                    width={640}
+                    height={640}
+                  />
                   {review.rating !== null ? <span className="badge">{review.rating}</span> : null}
                 </div>
                 <h3>{review.title}</h3>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { SiteShell } from "@/app/components/SiteShell";
 import { type EventItem, formatDate, getJsonSafe } from "@/lib/api/content";
 
@@ -25,7 +27,7 @@ export default async function ToursPage() {
           <div className="grid-3">
             {tours.map((tour) => (
               <article className="card tour-card" key={tour.id}>
-                <img src={tour.imageUrl ?? fallbackImage} alt={tour.title} />
+                <Image src={tour.imageUrl ?? fallbackImage} alt={tour.title} width={640} height={480} />
                 <div className="tour-body">
                   <h3>{tour.title}</h3>
                   <p className="muted">{tour.city ?? "TBA"}</p>

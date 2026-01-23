@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { SiteShell } from "@/app/components/SiteShell";
 import { type ArtistItem, getJsonSafe } from "@/lib/api/content";
 
@@ -25,7 +27,12 @@ export default async function ArtistsPage() {
           <div className="grid-3">
             {artists.map((artist) => (
               <article className="card artist-card" key={artist.id}>
-                <img src={artist.imageUrl ?? fallbackImage} alt={artist.name} />
+                <Image
+                  src={artist.imageUrl ?? fallbackImage}
+                  alt={artist.name}
+                  width={640}
+                  height={480}
+                />
                 <h3>{artist.name}</h3>
                 <p className="muted">Artist profile from the CMS.</p>
               </article>

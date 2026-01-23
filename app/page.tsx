@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { SiteShell } from "@/app/components/SiteShell";
 import { type ArtistItem, type EventItem, type PostItem, type ReviewItem, formatDate, getJsonSafe } from "@/lib/api/content";
 
@@ -69,7 +71,7 @@ export default async function HomePage() {
           </div>
           <div className="hero-visual">
             <div className="hero-card">
-              <img src={fallbackImage} alt="Futuristic music collage" />
+              <Image src={fallbackImage} alt="Futuristic music collage" width={720} height={720} />
             </div>
           </div>
         </div>
@@ -103,7 +105,12 @@ export default async function HomePage() {
             {reviews.map((review) => (
               <article className="card review-card" key={review.id}>
                 <div className="media">
-                  <img src={review.album?.coverImageUrl ?? fallbackImage} alt={`${review.title} cover`} />
+                  <Image
+                    src={review.album?.coverImageUrl ?? fallbackImage}
+                    alt={`${review.title} cover`}
+                    width={640}
+                    height={640}
+                  />
                   {review.rating !== null ? <span className="badge">{review.rating}</span> : null}
                 </div>
                 <h3>{review.title}</h3>
@@ -156,7 +163,7 @@ export default async function HomePage() {
           <div className="grid-3">
             {tours.map((tour) => (
               <article className="card tour-card" key={tour.id}>
-                <img src={fallbackImage} alt={tour.title} />
+                <Image src={fallbackImage} alt={tour.title} width={640} height={480} />
                 <div className="tour-info">
                   <h3>{tour.title}</h3>
                   <p className="muted">{tour.city ?? "TBA"}</p>
@@ -183,7 +190,7 @@ export default async function HomePage() {
           <div className="grid-3">
             {artists.map((artist) => (
               <article className="card artist-card" key={artist.id}>
-                <img src={fallbackImage} alt={artist.name} />
+                <Image src={fallbackImage} alt={artist.name} width={640} height={480} />
                 <h3>{artist.name}</h3>
                 <p className="muted">Artist profile</p>
               </article>

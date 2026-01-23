@@ -2,6 +2,7 @@ import { buildLegacyTheme, defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 
 import { schemaTypes } from "./schemaTypes";
+import { studioTheme } from "./studioTheme";
 import "./theme.css";
 
 const projectId = process.env.SANITY_PROJECT_ID || "YOUR_PROJECT_ID";
