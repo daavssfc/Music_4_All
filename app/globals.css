@@ -107,7 +107,7 @@ button:focus-visible {
 .subhead {
   font-size: 18px;
   margin: -6px 0 18px;
-  color: var(--fg);
+  color: #d0d6f4;
 }
 
 .muted {
@@ -336,7 +336,7 @@ button:focus-visible {
   content: "•";
   position: absolute;
   left: 0;
-  color: var(--primary);
+  color: #4f7cff;
 }
 
 .news-card h3 {
