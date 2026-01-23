@@ -8,10 +8,20 @@
 
 html,
 body,
+#root,
 #sanity,
 [data-ui="Root"] {
   background-color: var(--studio-bg) !important;
   color: var(--studio-fg);
+}
+
+body {
+  min-height: 100vh;
+}
+
+main,
+[data-ui="Layout"] {
+  background-color: var(--studio-bg) !important;
 }
 
 [data-ui="Pane"],
