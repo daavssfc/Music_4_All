@@ -1,85 +1,5 @@
-import { headers } from "next/headers";
-
-const buildBaseUrl = () => {
-  const headersList = headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto") ?? "http";
-  if (!host) {
-    return process.env.NEXT_PUBLIC_BASE_URL ?? "";
-  }
-  return `${protocol}://${host}`;
-};
-
-type PageInfo = {
-  total: number;
-};
-
-type PaginatedResponse<T> = {
-  items: T[];
-  pageInfo: PageInfo;
-};
-
-type ReviewItem = {
-  id: string;
-  title: string;
-  rating: number | null;
-  album: {
-    title: string;
-    coverImageUrl: string | null;
-    artists: { name: string; slug: string }[] | null;
-  } | null;
-};
-
-type PostItem = {
-  id: string;
-  title: string;
-  excerpt: string | null;
-  publishedAt: string | null;
-};
-
-type EventItem = {
-  id: string;
-  title: string;
-  city: string | null;
-  startsAt: string | null;
-};
-
-type ArtistItem = {
-  id: string;
-  name: string;
-};
-
-type FetchResult<T> = {
-  data: PaginatedResponse<T>;
-  error: string | null;
-};
-
-const formatDate = (value: string | null) => {
-  if (!value) return "";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString();
-};
-
-const emptyResponse = <T,>(): PaginatedResponse<T> => ({
-  items: [],
-  pageInfo: { total: 0 }
-});
-
-const getJsonSafe = async <T,>(path: string): Promise<FetchResult<T>> => {
-  const baseUrl = buildBaseUrl();
-  const url = baseUrl ? `${baseUrl}${path}` : path;
-  try {
-    const response = await fetch(url, { next: { revalidate: 30 } });
-    if (!response.ok) {
-      const text = await response.text();
-      return { data: emptyResponse<T>(), error: text || `Request failed: ${response.status}` };
-    }
-    return { data: (await response.json()) as PaginatedResponse<T>, error: null };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return { data: emptyResponse<T>(), error: message };
-  }
-};
+import { SiteShell } from "@/app/components/SiteShell";
+import { type ArtistItem, type EventItem, type PostItem, type ReviewItem, formatDate, getJsonSafe } from "@/lib/api/content";
 
 const highlights = [
   {
@@ -116,20 +36,7 @@ export default async function HomePage() {
   const artists = artistsResult.data.items.slice(0, 3);
 
   return (
-    <main className="page">
-      <header className="navbar">
-        <div className="container nav-inner">
-          <div className="logo">Music4All</div>
-          <nav className="nav-links" aria-label="Primary">
-            <a href="#reviews">Reviews</a>
-            <a href="#news">News</a>
-            <a href="#tours">Tours</a>
-            <a href="#artists">Artists</a>
-            <a href="#about">About</a>
-          </nav>
-          <button className="btn btn-primary">Explore Music</button>
-        </div>
-      </header>
+    <SiteShell>
 
       <section className="hero">
         <div className="container hero-grid">
@@ -299,6 +206,6 @@ export default async function HomePage() {
           <button className="btn btn-primary btn-lg">Get in touch</button>
         </div>
       </section>
-    </main>
+    </SiteShell>
   );
 }
