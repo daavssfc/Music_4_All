@@ -1,0 +1,183 @@
+@import url('@fontsource/plus-jakarta-sans/400.css');
+@import url('@fontsource/plus-jakarta-sans/500.css');
+@import url('@fontsource/plus-jakarta-sans/600.css');
+@import url('@fontsource/plus-jakarta-sans/700.css');
+@import url('@fontsource/plus-jakarta-sans/800.css');
+@import url('@fontsource/space-grotesk/700.css');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Music4All Design System - Dark Editorial Theme with Gold Accents */
+
+@layer base {
+  :root {
+    /* Page Background - Muted Olive */
+    --background: 68 24% 26%;
+    --foreground: 40 20% 90%;
+
+    /* Main Panel - Charcoal */
+    --card: 30 4% 18%;
+    --card-foreground: 40 20% 90%;
+
+    /* Surface Alt - Slightly lighter for cards */
+    --surface-alt: 30 6% 22%;
+
+    /* Popover */
+    --popover: 30 4% 18%;
+    --popover-foreground: 40 20% 90%;
+
+    /* Primary - Gold */
+    --primary: 43 56% 60%;
+    --primary-foreground: 30 4% 12%;
+
+    /* Secondary - Burnt Orange */
+    --secondary: 0 0% 0%;
+    --secondary-foreground: 40 20% 95%;
+
+    /* Muted */
+    --muted: 35 8% 25%;
+    --muted-foreground: 38 10% 62%;
+
+    /* Accent - Gold Highlight */
+    --accent: 47 76% 70%;
+    --accent-foreground: 30 4% 12%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 40 20% 95%;
+
+    /* Border */
+    --border: 35 8% 28%;
+    --input: 35 8% 28%;
+    --ring: 43 56% 60%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 30 4% 16%;
+    --sidebar-foreground: 40 20% 90%;
+    --sidebar-primary: 43 56% 60%;
+    --sidebar-primary-foreground: 30 4% 12%;
+    --sidebar-accent: 24 52% 48%;
+    --sidebar-accent-foreground: 40 20% 95%;
+    --sidebar-border: 35 8% 28%;
+    --sidebar-ring: 43 56% 60%;
+
+    /* Custom tokens */
+    --background-wordmark: 68 20% 30%;
+    --shadow-panel: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .dark {
+    /* Keep same as root - this is a dark theme by default */
+    --background: 68 24% 26%;
+    --foreground: 40 20% 90%;
+    --card: 30 4% 18%;
+    --card-foreground: 40 20% 90%;
+    --surface-alt: 30 6% 22%;
+    --popover: 30 4% 18%;
+    --popover-foreground: 40 20% 90%;
+    --primary: 43 56% 60%;
+    --primary-foreground: 30 4% 12%;
+    --secondary: 24 52% 48%;
+    --secondary-foreground: 40 20% 95%;
+    --muted: 35 8% 25%;
+    --muted-foreground: 38 10% 62%;
+    --accent: 47 76% 70%;
+    --accent-foreground: 30 4% 12%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 40 20% 95%;
+    --border: 35 8% 28%;
+    --input: 35 8% 28%;
+    --ring: 43 56% 60%;
+    --sidebar-background: 30 4% 16%;
+    --sidebar-foreground: 40 20% 90%;
+    --sidebar-primary: 43 56% 60%;
+    --sidebar-primary-foreground: 30 4% 12%;
+    --sidebar-accent: 24 52% 48%;
+    --sidebar-accent-foreground: 40 20% 95%;
+    --sidebar-border: 35 8% 28%;
+    --sidebar-ring: 43 56% 60%;
+    --background-wordmark: 68 20% 30%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* Display font for wordmarks */
+  .font-display {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  /* Meta label styles */
+  .meta-label {
+    @apply text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground;
+  }
+
+  /* Editorial panel with shadow */
+  .editorial-panel {
+    @apply bg-card rounded-xl;
+    box-shadow: var(--shadow-panel);
+  }
+
+  /* Nav link styles */
+  .nav-link {
+    @apply text-secondary font-bold text-lg tracking-tight transition-colors duration-200;
+  }
+
+  .nav-link:hover {
+    @apply text-primary;
+  }
+
+  .nav-link.active {
+    @apply text-primary border-l-2 border-primary pl-3 -ml-3;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-200;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Image zoom on hover */
+  .image-zoom {
+    @apply transition-transform duration-200 ease-out;
+  }
+
+  .image-zoom:hover {
+    @apply scale-[1.02];
+  }
+
+  /* Background wordmark */
+  .wordmark-bg {
+    @apply font-display font-bold text-[12rem] leading-none tracking-tighter;
+    color: hsl(var(--background-wordmark));
+  }
+}
+
+@layer utilities {
+  /* Focus ring with gold tint */
+  .focus-gold {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2 focus:ring-offset-card;
+  }
+}
