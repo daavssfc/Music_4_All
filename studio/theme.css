@@ -1,0 +1,46 @@
+:root {
+  color-scheme: dark;
+  --studio-bg: #101217;
+  --studio-fg: #f7f3ea;
+  --studio-surface: #171a21;
+  --studio-border: #2b313c;
+}
+
+html,
+body,
+#root,
+#sanity,
+[data-ui="Root"] {
+  background-color: var(--studio-bg) !important;
+  background: var(--studio-bg) !important;
+  color: var(--studio-fg);
+}
+
+body {
+  background: var(--studio-bg) !important;
+  min-height: 100vh;
+}
+
+main,
+[data-ui="Layout"] {
+  background-color: var(--studio-bg) !important;
+}
+
+[data-ui="Pane"],
+[data-ui="Card"],
+[data-ui="Dialog"],
+[data-ui="Popover"],
+[data-ui="Menu"] {
+  background-color: var(--studio-surface) !important;
+  color: var(--studio-fg);
+  border-color: var(--studio-border) !important;
+}
+
+[data-ui="Navbar"] {
+  background-color: #121212 !important;
+  border-bottom: 1px solid var(--studio-border);
+}
+
+[data-ui="Button"] {
+  border-color: var(--studio-border);
+}
