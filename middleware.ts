@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-const rateLimitState = new Map<string, { count: number; resetAt: number }>();
+import { rateLimit } from "@/lib/rateLimit";
 
 const getClientId = (request: NextRequest) => {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -22,36 +21,27 @@ const getRateLimitConfig = () => {
   };
 };
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   if (!request.nextUrl.pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
   const { windowMs, max } = getRateLimitConfig();
   const clientId = getClientId(request);
-  const now = Date.now();
-  const current = rateLimitState.get(clientId);
 
-  if (!current || now > current.resetAt) {
-    rateLimitState.set(clientId, { count: 1, resetAt: now + windowMs });
-    return NextResponse.next();
-  }
+  const result = await rateLimit(clientId, { windowMs, max });
 
-  if (current.count >= max) {
-    const retryAfterSeconds = Math.ceil((current.resetAt - now) / 1000);
+  if (!result.success) {
     return NextResponse.json(
       { error: "Rate limit exceeded." },
       {
         status: 429,
         headers: {
-          "Retry-After": retryAfterSeconds.toString()
+          "Retry-After": (result.retryAfter ?? 60).toString()
         }
       }
     );
   }
-
-  current.count += 1;
-  rateLimitState.set(clientId, current);
 
   return NextResponse.next();
 }

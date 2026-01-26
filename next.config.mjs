@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  output: 'standalone', // Required for Docker deployments
   async headers() {
     return [
       {

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "description": "Group Next.js related packages",
+      "groupName": "Next.js",
+      "matchPackagePatterns": [
+        "^next",
+        "^eslint-config-next"
+      ]
+    },
+    {
+      "description": "Group Sanity CMS packages",
+      "groupName": "Sanity",
+      "matchPackagePatterns": [
+        "^@sanity/",
+        "^sanity"
+      ]
+    },
+    {
+      "description": "Group React packages",
+      "groupName": "React",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ]
+    },
+    {
+      "description": "Group testing packages",
+      "groupName": "Testing",
+      "matchPackagePatterns": [
+        "^@playwright/",
+        "^vitest",
+        "^@testing-library/"
+      ]
+    },
+    {
+      "description": "Automerge patch updates for non-major versions",
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Separate major updates for review",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "labels": [
+        "major-update"
+      ]
+    }
+  ],
+  "schedule": [
+    "after 10pm every weekday",
+    "before 5am every weekday",
+    "every weekend"
+  ],
+  "timezone": "America/New_York",
+  "rangeStrategy": "bump",
+  "semanticCommits": "enabled",
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 5am on monday"
+    ]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security"
+    ],
+    "automerge": true
+  }
+}
