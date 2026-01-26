@@ -14,7 +14,7 @@ describe("rate limit middleware", () => {
     const { middleware } = await import("../middleware");
 
     const request = createRequest("/api/health", { "x-forwarded-for": "1.2.3.4" });
-    const response = middleware(request);
+    const response = await middleware(request);
     expect(response.status).toBe(200);
   });
 
@@ -25,8 +25,8 @@ describe("rate limit middleware", () => {
     const { middleware } = await import("../middleware");
     const request = createRequest("/api/health", { "x-forwarded-for": "5.6.7.8" });
 
-    middleware(request);
-    const response = middleware(request);
+    await middleware(request);
+    const response = await middleware(request);
 
     expect(response.status).toBe(429);
 
