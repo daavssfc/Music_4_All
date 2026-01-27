@@ -41,6 +41,7 @@ pnpm studio:dev
 - Security notes: `docs/security.md`
 - Observability notes: `docs/observability.md`
 - Uptime monitoring: `docs/uptime-monitoring.md`
+- Warnings log: `docs/warnings.md`
 - Editorial workflow: `docs/editorial-workflow.md`
 
 ## Health endpoints
