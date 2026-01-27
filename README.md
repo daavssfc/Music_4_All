@@ -39,6 +39,9 @@ pnpm studio:dev
 - API contracts: `docs/contracts.md`
 - Revalidation setup: `docs/revalidation.md`
 - Security notes: `docs/security.md`
+- Observability notes: `docs/observability.md`
+- Uptime monitoring: `docs/uptime-monitoring.md`
+- Warnings log: `docs/warnings.md`
 - Editorial workflow: `docs/editorial-workflow.md`
 
 ## Health endpoints

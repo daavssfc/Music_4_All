@@ -1,5 +1,17 @@
 # Security Notes
 
+## Security headers
+
+The application sets baseline security headers in `next.config.mjs` for all routes:
+
+- `Content-Security-Policy` to limit where scripts, styles, and images can load from.
+- `Strict-Transport-Security` (HSTS) to enforce HTTPS.
+- `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and `Permissions-Policy`
+  to reduce common browser-based attack surfaces.
+
+If you add third-party embeds (YouTube, Spotify, etc.), update the CSP allowlist
+to include the required domains.
+
 ## Rate limiting
 
 API routes are protected by a basic, in-memory rate limit in `middleware.ts`.
