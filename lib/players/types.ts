@@ -13,6 +13,7 @@ export const playerStateSchema = z.object({
   fallback_url: z.string().nullable(),
   live_platform: platformSchema.nullable(),
   live_url: z.string().nullable(),
+  started_at: z.string().nullable().optional(),
   updated_at: z.string().nullable().optional(),
   updated_by: z.string().nullable().optional()
 });
@@ -23,4 +24,5 @@ export type ActiveSource = {
   mode: PlayerMode;
   platform: Platform | null;
   url: string | null;
+  startedAt: string | null;
 };

@@ -31,6 +31,7 @@ const normalizeLegacyRow = (row: Record<string, unknown>): PlayerState | null =>
     fallback_url: mode === "live" ? null : url,
     live_platform: mode === "live" ? platform : null,
     live_url: mode === "live" ? url : null,
+    started_at: row.updated_at ?? null,
     updated_at: row.updated_at,
     updated_by: row.updated_by
   };

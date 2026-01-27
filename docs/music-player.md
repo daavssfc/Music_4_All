@@ -10,6 +10,12 @@ Legacy `now_playing` tables use `platform` and `url` columns instead of
 `fallback_platform`/`fallback_url`/`live_platform`/`live_url`. The app will map those
 columns automatically when `PLAYER_STATE_TABLE=now_playing` is set.
 
+## Shared radio mode (always-on)
+
+The player uses `updated_at` (or `started_at` when available) to compute a shared
+time offset so listeners begin at the same point in the track/playlist. If you
+add a `started_at` column, the app will use it when present.
+
 ## Supabase schema
 
 Run this SQL in Supabase → SQL Editor:

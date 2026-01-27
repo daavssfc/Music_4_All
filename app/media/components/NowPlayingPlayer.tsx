@@ -58,7 +58,9 @@ export const NowPlayingPlayer = ({
 
   const active = resolveActiveSource(state);
   const embedUrl =
-    active.platform && active.url ? buildEmbedUrl(active.platform, active.url) : null;
+    active.platform && active.url
+      ? buildEmbedUrl(active.platform, active.url, active.startedAt)
+      : null;
 
   return (
     <div className="card" style={{ display: "grid", gap: "1.5rem" }}>

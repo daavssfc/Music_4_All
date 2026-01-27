@@ -11,7 +11,9 @@ export async function GET() {
 
   const active = resolveActiveSource(state);
   const embedUrl =
-    active.platform && active.url ? buildEmbedUrl(active.platform, active.url) : null;
+    active.platform && active.url
+      ? buildEmbedUrl(active.platform, active.url, active.startedAt)
+      : null;
 
   return NextResponse.json(
     {

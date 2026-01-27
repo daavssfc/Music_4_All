@@ -139,7 +139,9 @@ export const DjControlPanel = ({
 
   const active = resolveActiveSource(state);
   const embedUrl =
-    active.platform && active.url ? buildEmbedUrl(active.platform, active.url) : null;
+    active.platform && active.url
+      ? buildEmbedUrl(active.platform, active.url, active.startedAt)
+      : null;
 
   return (
     <div className="grid-3" style={{ alignItems: "start" }}>
