@@ -1,4 +1,7 @@
 import { SiteShell } from "@/app/components/SiteShell";
+import { NowPlayingPlayer } from "@/app/media/components/NowPlayingPlayer";
+import { fetchPlayerState } from "@/lib/players/state";
+import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 const mediaSections = [
   {
@@ -15,7 +18,10 @@ const mediaSections = [
   }
 ];
 
-export default function MediaPage() {
+export default async function MediaPage() {
+  const { state, error } = await fetchPlayerState();
+  const { url: supabaseUrl, anonKey: supabaseAnonKey } = getSupabasePublicConfig();
+
   return (
     <SiteShell>
       <section className="section">
@@ -25,10 +31,19 @@ export default function MediaPage() {
               <span className="label">Media</span>
               <h1>Media library for the Music 4 All brand</h1>
               <p className="muted">
-                This is a placeholder for video, photo, and playlist integrations.
+                Multi-platform player powered by Supabase realtime for live DJ sessions.
               </p>
             </div>
           </div>
+          <NowPlayingPlayer
+            initialState={state}
+            supabaseUrl={supabaseUrl}
+            supabaseAnonKey={supabaseAnonKey}
+            errorMessage={error}
+          />
+          <p className="muted" style={{ marginTop: "1.5rem" }}>
+            DJs can update the live session in the <a href="/media/dj">DJ control room</a>.
+          </p>
           <div className="grid-3">
             {mediaSections.map((section) => (
               <div className="card" key={section.title}>
