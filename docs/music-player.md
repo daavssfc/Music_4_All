@@ -4,6 +4,9 @@ This project ships with a multi-platform music player that supports:
 - Fallback playlist mode (YouTube / Spotify / SoundCloud playlists)
 - Live DJ override (tracks or playlists)
 
+If you already created a table named `now_playing`, you can either rename it to
+`player_state` or set `PLAYER_STATE_TABLE=now_playing` in your environment variables.
+
 ## Supabase schema
 
 Run this SQL in Supabase → SQL Editor:

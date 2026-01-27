@@ -3,6 +3,13 @@ import { playerStateSchema } from "@/lib/players/types";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 const PLAYER_STATE_ID = "00000000-0000-0000-0000-000000000001";
+const DEFAULT_TABLE = process.env.PLAYER_STATE_TABLE || "player_state";
+const FALLBACK_TABLE = "now_playing";
+
+const isTableMissingError = (message: string) =>
+  message.includes("Could not find the table") ||
+  message.includes("relation") ||
+  message.toLowerCase().includes("does not exist");
 
 export type PlayerStateResult = {
   state: PlayerState | null;
@@ -17,17 +24,31 @@ const normalizePlayerState = (state: unknown) => {
 export const fetchPlayerState = async (): Promise<PlayerStateResult> => {
   try {
     const supabase = getSupabaseServerClient();
-    const { data, error } = await supabase
-      .from("player_state")
-      .select("*")
-      .eq("id", PLAYER_STATE_ID)
-      .maybeSingle();
+    const tables = [DEFAULT_TABLE, FALLBACK_TABLE].filter(
+      (value, index, list) => list.indexOf(value) === index
+    );
 
-    if (error) {
-      return { state: null, error: error.message };
+    for (const table of tables) {
+      const { data, error } = await supabase
+        .from(table)
+        .select("*")
+        .eq("id", PLAYER_STATE_ID)
+        .maybeSingle();
+
+      if (error) {
+        if (isTableMissingError(error.message)) {
+          continue;
+        }
+        return { state: null, error: error.message };
+      }
+
+      return { state: normalizePlayerState(data), error: null };
     }
 
-    return { state: normalizePlayerState(data), error: null };
+    return {
+      state: null,
+      error: `Could not find the table '${DEFAULT_TABLE}' in the schema cache.`
+    };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     return { state: null, error: message };
@@ -36,14 +57,30 @@ export const fetchPlayerState = async (): Promise<PlayerStateResult> => {
 
 export const upsertPlayerState = async (payload: Partial<PlayerState>) => {
   const supabase = getSupabaseServerClient();
-  const { data: existing, error } = await supabase
-    .from("player_state")
-    .select("*")
-    .eq("id", PLAYER_STATE_ID)
-    .maybeSingle();
+  const tables = [DEFAULT_TABLE, FALLBACK_TABLE].filter(
+    (value, index, list) => list.indexOf(value) === index
+  );
 
-  if (error && !existing) {
-    throw new Error(error.message);
+  let existing: PlayerState | null = null;
+  let activeTable = DEFAULT_TABLE;
+
+  for (const table of tables) {
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .eq("id", PLAYER_STATE_ID)
+      .maybeSingle();
+
+    if (error) {
+      if (isTableMissingError(error.message)) {
+        continue;
+      }
+      throw new Error(error.message);
+    }
+
+    activeTable = table;
+    existing = data as PlayerState | null;
+    break;
   }
 
   const row = existing ?? {
@@ -61,7 +98,7 @@ export const upsertPlayerState = async (payload: Partial<PlayerState>) => {
   };
 
   const { data, error: upsertError } = await supabase
-    .from("player_state")
+    .from(activeTable)
     .upsert(next)
     .select("*")
     .single();
