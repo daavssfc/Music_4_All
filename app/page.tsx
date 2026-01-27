@@ -2,6 +2,9 @@ import Image from "next/image";
 
 import { SiteShell } from "@/app/components/SiteShell";
 import { type ArtistItem, type EventItem, type PostItem, type ReviewItem, formatDate, getJsonSafe } from "@/lib/api/content";
+import { NowPlayingPlayer } from "@/app/media/components/NowPlayingPlayer";
+import { fetchPlayerState } from "@/lib/players/state";
+import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 const highlights = [
   {
@@ -25,6 +28,8 @@ const fallbackImage =
   "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80";
 
 export default async function HomePage() {
+  const { state: playerState, error: playerError } = await fetchPlayerState();
+  const { url: supabaseUrl, anonKey: supabaseAnonKey } = getSupabasePublicConfig();
   const [reviewsResult, newsResult, eventsResult, artistsResult] = await Promise.all([
     getJsonSafe<ReviewItem>("/api/reviews"),
     getJsonSafe<PostItem>("/api/news"),
@@ -51,8 +56,12 @@ export default async function HomePage() {
               intelligence curated for true fans.
             </p>
             <div className="hero-actions">
-              <button className="btn btn-primary btn-lg">Start Listening</button>
-              <button className="btn btn-secondary btn-lg">View Reviews</button>
+              <a className="btn btn-primary btn-lg" href="/media">
+                Start Listening
+              </a>
+              <a className="btn btn-secondary btn-lg" href="/reviews">
+                View Reviews
+              </a>
             </div>
             <div className="hero-metrics">
               <div>
@@ -70,9 +79,12 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-visual">
-            <div className="hero-card">
-              <Image src={fallbackImage} alt="Futuristic music collage" width={720} height={720} />
-            </div>
+            <NowPlayingPlayer
+              initialState={playerState}
+              supabaseUrl={supabaseUrl}
+              supabaseAnonKey={supabaseAnonKey}
+              errorMessage={playerError}
+            />
           </div>
         </div>
       </section>
