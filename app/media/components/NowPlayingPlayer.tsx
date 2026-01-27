@@ -39,12 +39,12 @@ export const NowPlayingPlayer = ({
 
     if (!supabase) return undefined;
 
-    const channel = supabase
+    const channel = (supabase as unknown as { channel: (...args: unknown[]) => any })
       .channel("player-state")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "player_state" },
-        (payload) => {
+        (payload: { new: PlayerState }) => {
           setStatus(null);
           setState(payload.new as PlayerState);
         }

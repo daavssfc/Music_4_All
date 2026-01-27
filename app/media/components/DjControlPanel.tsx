@@ -51,12 +51,12 @@ export const DjControlPanel = ({
 
     if (!supabase) return undefined;
 
-    const channel = supabase
+    const channel = (supabase as unknown as { channel: (...args: unknown[]) => any })
       .channel("player-state-admin")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "player_state" },
-        (payload) => {
+        (payload: { new: PlayerState }) => {
           setState(payload.new as PlayerState);
         }
       )
