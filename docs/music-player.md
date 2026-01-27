@@ -6,6 +6,9 @@ This project ships with a multi-platform music player that supports:
 
 If you already created a table named `now_playing`, you can either rename it to
 `player_state` or set `PLAYER_STATE_TABLE=now_playing` in your environment variables.
+Legacy `now_playing` tables use `platform` and `url` columns instead of
+`fallback_platform`/`fallback_url`/`live_platform`/`live_url`. The app will map those
+columns automatically when `PLAYER_STATE_TABLE=now_playing` is set.
 
 ## Supabase schema
 

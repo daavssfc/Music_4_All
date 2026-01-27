@@ -16,7 +16,33 @@ export type PlayerStateResult = {
   error: string | null;
 };
 
+const isLegacyRow = (row: Record<string, unknown>) =>
+  "platform" in row && "url" in row && !("fallback_platform" in row);
+
+const normalizeLegacyRow = (row: Record<string, unknown>): PlayerState | null => {
+  const mode = typeof row.mode === "string" ? row.mode : "fallback";
+  const platform = typeof row.platform === "string" ? row.platform : null;
+  const url = typeof row.url === "string" ? row.url : null;
+
+  const mapped: Record<string, unknown> = {
+    id: row.id,
+    mode,
+    fallback_platform: mode === "live" ? null : platform,
+    fallback_url: mode === "live" ? null : url,
+    live_platform: mode === "live" ? platform : null,
+    live_url: mode === "live" ? url : null,
+    updated_at: row.updated_at,
+    updated_by: row.updated_by
+  };
+
+  const parsed = playerStateSchema.safeParse(mapped);
+  return parsed.success ? parsed.data : null;
+};
+
 const normalizePlayerState = (state: unknown) => {
+  if (state && typeof state === "object" && isLegacyRow(state as Record<string, unknown>)) {
+    return normalizeLegacyRow(state as Record<string, unknown>);
+  }
   const parsed = playerStateSchema.safeParse(state);
   return parsed.success ? parsed.data : null;
 };
@@ -139,9 +165,21 @@ export const upsertPlayerState = async (payload: Partial<PlayerState>) => {
     ...payload
   };
 
+  const isLegacyTable = activeTable !== "player_state";
+  const legacyPayload = isLegacyTable
+    ? {
+        id: next.id,
+        mode: next.mode,
+        platform: next.mode === "live" ? next.live_platform : next.fallback_platform,
+        url: next.mode === "live" ? next.live_url : next.fallback_url,
+        updated_at: next.updated_at,
+        updated_by: next.updated_by
+      }
+    : next;
+
   const { data, error: upsertError } = await supabase
     .from(activeTable)
-    .upsert(next)
+    .upsert(legacyPayload)
     .select("*")
     .single();
 
