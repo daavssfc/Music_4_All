@@ -42,7 +42,27 @@ export const fetchPlayerState = async (): Promise<PlayerStateResult> => {
         return { state: null, error: error.message };
       }
 
-      return { state: normalizePlayerState(data), error: null };
+      if (data) {
+        return { state: normalizePlayerState(data), error: null };
+      }
+
+      const { data: latest, error: latestError } = await supabase
+        .from(table)
+        .select("*")
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (latestError) {
+        if (isTableMissingError(latestError.message)) {
+          continue;
+        }
+        return { state: null, error: latestError.message };
+      }
+
+      if (latest) {
+        return { state: normalizePlayerState(latest), error: null };
+      }
     }
 
     return {
@@ -78,9 +98,31 @@ export const upsertPlayerState = async (payload: Partial<PlayerState>) => {
       throw new Error(error.message);
     }
 
-    activeTable = table;
-    existing = data as PlayerState | null;
-    break;
+    if (data) {
+      activeTable = table;
+      existing = data as PlayerState | null;
+      break;
+    }
+
+    const { data: latest, error: latestError } = await supabase
+      .from(table)
+      .select("*")
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (latestError) {
+      if (isTableMissingError(latestError.message)) {
+        continue;
+      }
+      throw new Error(latestError.message);
+    }
+
+    if (latest) {
+      activeTable = table;
+      existing = latest as PlayerState | null;
+      break;
+    }
   }
 
   const row = existing ?? {
