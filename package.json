@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@sanity/client": "6.24.0",
+    "@supabase/supabase-js": "^2.45.4",
     "ioredis": "^5.4.1",
     "next": "14.2.7",
     "pino": "^10.3.0",
