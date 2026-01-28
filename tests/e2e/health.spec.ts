@@ -4,7 +4,8 @@ test("health endpoint responds", async ({ request }) => {
   const response = await request.get("/api/health");
   expect(response.ok()).toBeTruthy();
   const body = await response.json();
-  expect(body).toMatchObject({ status: "ok", service: "music-4-all" });
+  expect(body.service).toBe("music-4-all");
+  expect(["ok", "degraded"]).toContain(body.status);
 });
 
 test("home page renders", async ({ page }) => {

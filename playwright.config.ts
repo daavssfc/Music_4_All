@@ -6,7 +6,7 @@ export default defineConfig({
     baseURL: "http://127.0.0.1:3000"
   },
   webServer: {
-    command: "pnpm build && pnpm start -p 3000",
+    command: "pnpm build && node .next/standalone/server.js",
     port: 3000,
     reuseExistingServer: false,
     timeout: 120000
