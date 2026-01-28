@@ -10,5 +10,5 @@ test("health endpoint responds", async ({ request }) => {
 
 test("home page renders", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Music 4 All" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /perfect/i })).toBeVisible();
 });
