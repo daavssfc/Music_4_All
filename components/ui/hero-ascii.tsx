@@ -106,7 +106,7 @@ export default function HeroAscii() {
         style={{ bottom: '5vh' }}
       ></div>
 
-      <div className="relative z-10 flex min-h-screen items-center pt-16 lg:pt-0" style={{ marginTop: '5vh' }}>
+      <div className="relative z-10 flex min-h-screen items-start pt-24 lg:pt-28">
         <div className="container mx-auto px-6 lg:px-16 lg:ml-[10%]">
           <div className="max-w-lg relative">
             {/* Top decorative line */}
