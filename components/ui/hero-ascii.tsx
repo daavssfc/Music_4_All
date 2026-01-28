@@ -107,9 +107,12 @@ export default function HeroAscii() {
         style={{ bottom: '5vh' }}
       ></div>
 
-      <div className="absolute inset-0 z-30 pointer-events-none">
+      <div className="absolute inset-0 z-50 pointer-events-none">
         <div className="container mx-auto px-6 lg:px-16 lg:ml-[10%]">
-          <div className="max-w-lg relative pt-24 lg:pt-28 pointer-events-auto">
+          <div
+            className="max-w-lg relative pointer-events-auto bg-black/60 backdrop-blur-sm p-4 lg:p-0"
+            style={{ top: '18vh' }}
+          >
             {/* Top decorative line */}
             <div className="flex items-center gap-2 mb-3 opacity-60">
               <div className="w-8 h-px bg-white"></div>
@@ -121,7 +124,7 @@ export default function HeroAscii() {
             <div className="relative">
               <div className="hidden lg:block absolute -left-3 top-0 bottom-0 w-1 dither-pattern opacity-40"></div>
               <h1
-                className="text-2xl lg:text-5xl font-bold text-white mb-3 lg:mb-4 leading-tight font-mono tracking-wider"
+                className="text-2xl lg:text-5xl font-bold text-white mb-3 lg:mb-4 leading-tight font-mono tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
                 style={{ letterSpacing: '0.1em' }}
               >
                 PERFECT
