@@ -9,9 +9,7 @@ The application sets baseline security headers in `next.config.mjs` for all rout
 - `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and `Permissions-Policy`
   to reduce common browser-based attack surfaces.
 
-If you add third-party embeds (YouTube, Spotify, SoundCloud, etc.), update the CSP allowlist
-to include the required domains. The media player uses `frame-src` for the embed hosts and
-`connect-src` for Supabase realtime.
+If you add third-party embeds (YouTube, Spotify, SoundCloud, etc.), update the CSP allowlist to include the required domains.
 
 ## Rate limiting
 

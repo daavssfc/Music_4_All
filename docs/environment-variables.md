@@ -24,12 +24,11 @@ This document describes all environment variables used in the Music_4_All applic
 - `SANITY_READ_TOKEN` - Optional read token for private datasets
 - `SANITY_ORG_ID` - Optional organization ID for CLI operations
 
-### Supabase Realtime (Media player)
+### Supabase
 
 - `SUPABASE_URL` - Supabase project URL
 - `SUPABASE_ANON_KEY` - Supabase anon/public key (used for realtime subscriptions)
 - `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key (server-side only)
-- `PLAYER_STATE_TABLE` - Optional override for the player state table name (default: `player_state`)
 
 ## Optional Variables
 

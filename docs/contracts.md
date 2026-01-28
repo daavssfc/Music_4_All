@@ -131,29 +131,6 @@ Query params:
 
 - `q`: full-text search (name, bio)
 
-## Now Playing (Media Player)
-
-### Current state
-
-`GET /api/now-playing`
-
-Response:
-- `state`: Supabase row for the player state
-- `active`: resolved active mode/platform/url
-- `embedUrl`: computed embed URL for the current player
-
-### DJ updates (Sanity-authenticated)
-
-`POST /api/dj/now-playing`
-
-Headers:
-- `Authorization: Bearer <sanity_user_token>`
-
-Body (one of):
-- `{"action":"set-fallback","platform":"youtube|spotify|soundcloud","url":"<playlist url>"}`
-- `{"action":"set-live","platform":"youtube|spotify|soundcloud","url":"<track or playlist url>"}`
-- `{"action":"end-live"}`
-
 ## Canonical Routes (external UI)
 
 The external UI should map to these stable URL patterns:

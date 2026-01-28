@@ -2,9 +2,6 @@ import Image from "next/image";
 
 import { SiteShell } from "@/app/components/SiteShell";
 import { type ArtistItem, type EventItem, type PostItem, type ReviewItem, formatDate, getJsonSafe } from "@/lib/api/content";
-import { NowPlayingPlayer } from "@/app/media/components/NowPlayingPlayer";
-import { fetchPlayerState } from "@/lib/players/state";
-import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 const highlights = [
   {
@@ -28,8 +25,6 @@ const fallbackImage =
   "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80";
 
 export default async function HomePage() {
-  const { state: playerState, error: playerError } = await fetchPlayerState();
-  const { url: supabaseUrl, anonKey: supabaseAnonKey } = getSupabasePublicConfig();
   const [reviewsResult, newsResult, eventsResult, artistsResult] = await Promise.all([
     getJsonSafe<ReviewItem>("/api/reviews"),
     getJsonSafe<PostItem>("/api/news"),
@@ -56,8 +51,8 @@ export default async function HomePage() {
               intelligence curated for true fans.
             </p>
             <div className="hero-actions">
-              <a className="btn btn-primary btn-lg" href="/media">
-                Start Listening
+              <a className="btn btn-primary btn-lg" href="/news">
+                Browse News
               </a>
               <a className="btn btn-secondary btn-lg" href="/reviews">
                 View Reviews
@@ -77,14 +72,6 @@ export default async function HomePage() {
                 <p className="muted">Artists tracked</p>
               </div>
             </div>
-          </div>
-          <div className="hero-visual">
-            <NowPlayingPlayer
-              initialState={playerState}
-              supabaseUrl={supabaseUrl}
-              supabaseAnonKey={supabaseAnonKey}
-              errorMessage={playerError}
-            />
           </div>
         </div>
       </section>
