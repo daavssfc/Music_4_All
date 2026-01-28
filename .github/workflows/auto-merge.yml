@@ -1,0 +1,67 @@
+name: Auto-merge ready PRs
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+  schedule:
+    - cron: "*/5 * * * *"
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-merge ready PRs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const { data: pulls } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              per_page: 50,
+            });
+
+            for (const pr of pulls) {
+              const prData = await github.graphql(
+                `query($owner:String!, $repo:String!, $number:Int!) {
+                  repository(owner:$owner, name:$repo) {
+                    pullRequest(number:$number) {
+                      id
+                      number
+                      mergeable
+                      isDraft
+                      statusCheckRollup { state }
+                      commits(last: 1) {
+                        nodes { commit { statusCheckRollup { state } } }
+                      }
+                    }
+                  }
+                }`,
+                { owner, repo, number: pr.number }
+              );
+
+              const prInfo = prData.repository.pullRequest;
+              if (prInfo.isDraft) continue;
+              if (prInfo.mergeable !== true) continue;
+
+              const rollupState = prInfo.statusCheckRollup?.state || prInfo.commits.nodes[0]?.commit.statusCheckRollup?.state;
+              if (rollupState !== 'SUCCESS') continue;
+
+              await github.graphql(
+                `mutation($pr:ID!) {
+                  mergePullRequest(input:{pullRequestId:$pr, mergeMethod:SQUASH}) { clientMutationId }
+                }`,
+                { pr: prInfo.id }
+              );
+            }
