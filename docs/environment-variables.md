@@ -24,11 +24,9 @@ This document describes all environment variables used in the Music_4_All applic
 - `SANITY_READ_TOKEN` - Optional read token for private datasets
 - `SANITY_ORG_ID` - Optional organization ID for CLI operations
 
-### Supabase
+## Health check
 
-- `SUPABASE_URL` - Supabase project URL
-- `SUPABASE_ANON_KEY` - Supabase anon/public key (used for realtime subscriptions)
-- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key (server-side only)
+`GET /api/health` returns `env.ok=false` and lists missing variables if required values are not set.
 
 ## Optional Variables
 
