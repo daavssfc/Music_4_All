@@ -94,25 +94,6 @@ export default function HeroAscii() {
       {/* Mobile stars background */}
       <div className="absolute inset-0 w-full h-full lg:hidden stars-bg"></div>
 
-      {/* Top Header */}
-      <div className="absolute top-0 left-0 right-0 z-20 border-b border-white/20">
-        <div className="container mx-auto px-4 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 lg:gap-4">
-            <div className="font-mono text-white text-xl lg:text-2xl font-bold tracking-widest italic transform -skew-x-12">
-              UIMIX
-            </div>
-            <div className="h-3 lg:h-4 w-px bg-white/40"></div>
-            <span className="text-white/60 text-[8px] lg:text-[10px] font-mono">EST. 2025</span>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-3 text-[10px] font-mono text-white/60">
-            <span>LAT: 37.7749°</span>
-            <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-            <span>LONG: 122.4194°</span>
-          </div>
-        </div>
-      </div>
-
       {/* Corner Frame Accents */}
       <div className="absolute top-0 left-0 w-8 h-8 lg:w-12 lg:h-12 border-t-2 border-l-2 border-white/30 z-20"></div>
       <div className="absolute top-0 right-0 w-8 h-8 lg:w-12 lg:h-12 border-t-2 border-r-2 border-white/30 z-20"></div>
@@ -125,9 +106,9 @@ export default function HeroAscii() {
         style={{ bottom: '5vh' }}
       ></div>
 
-      <div className="relative z-10 flex min-h-screen items-center pt-16 lg:pt-0" style={{ marginTop: '5vh' }}>
+      <div className="absolute inset-0 z-10 pointer-events-none">
         <div className="container mx-auto px-6 lg:px-16 lg:ml-[10%]">
-          <div className="max-w-lg relative">
+          <div className="max-w-lg relative pt-24 lg:pt-28 pointer-events-auto">
             {/* Top decorative line */}
             <div className="flex items-center gap-2 mb-3 opacity-60">
               <div className="w-8 h-px bg-white"></div>
@@ -194,41 +175,6 @@ export default function HeroAscii() {
               <div className="flex-1 h-px bg-white"></div>
               <span className="text-white text-[9px] font-mono">VITRUVIAN</span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Footer */}
-      <div
-        className="absolute left-0 right-0 z-20 border-t border-white/20 bg-black/40 backdrop-blur-sm"
-        style={{ bottom: '5vh' }}
-      >
-        <div className="container mx-auto px-4 lg:px-8 py-2 lg:py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3 lg:gap-6 text-[8px] lg:text-[9px] font-mono text-white/50">
-            <span className="hidden lg:inline">SYSTEM.ACTIVE</span>
-            <span className="lg:hidden">SYS.ACT</span>
-            <div className="hidden lg:flex gap-1">
-              {barHeights.map((height, i) => (
-                <div key={i} className="w-1 bg-white/30" style={{ height: `${height}px` }}></div>
-              ))}
-            </div>
-            <span>V1.0.0</span>
-          </div>
-
-          <div className="flex items-center gap-2 lg:gap-4 text-[8px] lg:text-[9px] font-mono text-white/50">
-            <span className="hidden lg:inline">◐ RENDERING</span>
-            <div className="flex gap-1">
-              <div className="w-1 h-1 bg-white/60 rounded-full animate-pulse"></div>
-              <div
-                className="w-1 h-1 bg-white/40 rounded-full animate-pulse"
-                style={{ animationDelay: '0.2s' }}
-              ></div>
-              <div
-                className="w-1 h-1 bg-white/20 rounded-full animate-pulse"
-                style={{ animationDelay: '0.4s' }}
-              ></div>
-            </div>
-            <span className="hidden lg:inline">FRAME: ⌖</span>
           </div>
         </div>
       </div>
