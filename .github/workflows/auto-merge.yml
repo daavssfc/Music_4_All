@@ -37,16 +37,14 @@ jobs:
                 `query($owner:String!, $repo:String!, $number:Int!) {
                   repository(owner:$owner, name:$repo) {
                     pullRequest(number:$number) {
+                      id
                       number
                       mergeable
-                      mergeableState
                       isDraft
-                      baseRefName
-                      headRefName
+                      statusCheckRollup { state }
                       commits(last: 1) {
                         nodes { commit { statusCheckRollup { state } } }
                       }
-                      statusCheckRollup { state }
                     }
                   }
                 }`,
@@ -55,7 +53,7 @@ jobs:
 
               const prInfo = prData.repository.pullRequest;
               if (prInfo.isDraft) continue;
-              if (prInfo.mergeableState !== 'CLEAN' && prInfo.mergeableState !== 'STABLE') continue;
+              if (prInfo.mergeable !== true) continue;
 
               const rollupState = prInfo.statusCheckRollup?.state || prInfo.commits.nodes[0]?.commit.statusCheckRollup?.state;
               if (rollupState !== 'SUCCESS') continue;
@@ -64,6 +62,6 @@ jobs:
                 `mutation($pr:ID!) {
                   mergePullRequest(input:{pullRequestId:$pr, mergeMethod:SQUASH}) { clientMutationId }
                 }`,
-                { pr: pr.node_id }
+                { pr: prInfo.id }
               );
             }
