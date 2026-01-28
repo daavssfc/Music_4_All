@@ -83,8 +83,9 @@ export default function HeroAscii() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-black">
+      <div className="absolute inset-0 bg-black/90"></div>
       {/* Vitruvian man animation - hidden on mobile */}
-      <div className="absolute inset-0 w-full h-full hidden lg:block">
+      <div className="absolute inset-0 w-full h-full hidden lg:block z-0 pointer-events-none">
         <div
           data-us-project="whwOGlfJ5Rz2rHaEUgHl"
           style={{ width: '100%', height: '100%', minHeight: '100vh' }}
@@ -92,7 +93,7 @@ export default function HeroAscii() {
       </div>
 
       {/* Mobile stars background */}
-      <div className="absolute inset-0 w-full h-full lg:hidden stars-bg"></div>
+      <div className="absolute inset-0 w-full h-full lg:hidden stars-bg z-0"></div>
 
       {/* Corner Frame Accents */}
       <div className="absolute top-0 left-0 w-8 h-8 lg:w-12 lg:h-12 border-t-2 border-l-2 border-white/30 z-20"></div>
@@ -106,7 +107,7 @@ export default function HeroAscii() {
         style={{ bottom: '5vh' }}
       ></div>
 
-      <div className="absolute inset-0 z-10 pointer-events-none">
+      <div className="absolute inset-0 z-20 pointer-events-none">
         <div className="container mx-auto px-6 lg:px-16 lg:ml-[10%]">
           <div className="max-w-lg relative pt-24 lg:pt-28 pointer-events-auto">
             {/* Top decorative line */}
