@@ -106,9 +106,9 @@ export default function HeroAscii() {
         style={{ bottom: '5vh' }}
       ></div>
 
-      <div className="relative z-10 flex min-h-screen items-start pt-24 lg:pt-28">
+      <div className="absolute inset-0 z-10 pointer-events-none">
         <div className="container mx-auto px-6 lg:px-16 lg:ml-[10%]">
-          <div className="max-w-lg relative">
+          <div className="max-w-lg relative pt-24 lg:pt-28 pointer-events-auto">
             {/* Top decorative line */}
             <div className="flex items-center gap-2 mb-3 opacity-60">
               <div className="w-8 h-px bg-white"></div>
