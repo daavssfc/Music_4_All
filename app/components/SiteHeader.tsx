@@ -7,7 +7,7 @@ const navLinks = [
   { href: "/artists", label: "Artists" },
   { href: "/store", label: "Store" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" }
+  { href: "/contacts", label: "Contacts" }
 ];
 
 export function SiteHeader() {

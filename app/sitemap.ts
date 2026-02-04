@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/artists`, lastModified: new Date() },
     { url: `${baseUrl}/tours`, lastModified: new Date() },
     { url: `${baseUrl}/about`, lastModified: new Date() },
-    { url: `${baseUrl}/contact`, lastModified: new Date() }
+    { url: `${baseUrl}/contacts`, lastModified: new Date() }
   ];
 
   const mapSlugs = (items: SlugItem[], prefix: string) =>

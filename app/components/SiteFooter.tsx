@@ -6,7 +6,7 @@ const footerLinks = [
   { href: "/tours", label: "Tours" },
   { href: "/artists", label: "Artists" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" }
+  { href: "/contacts", label: "Contacts" }
 ];
 
 export function SiteFooter() {

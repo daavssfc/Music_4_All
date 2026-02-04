@@ -1,12 +1,12 @@
 import { SiteShell } from "@/app/components/SiteShell";
 
-export default function ContactPage() {
+export default function ContactsPage() {
   return (
     <SiteShell>
       <section className="section">
         <div className="container two-col">
           <div>
-            <span className="label">Contact</span>
+            <span className="label">Contacts</span>
             <h1>Work with the Music 4 All editorial team.</h1>
             <p className="muted">
               Use this page to capture submissions, press inquiries, and partnership requests.
